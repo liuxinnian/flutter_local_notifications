@@ -263,7 +263,7 @@ extension AndroidNotificationDetailsMapper on AndroidNotificationDetails {
       };
     } else if (styleInformation is CustomStyleInformation) {
       return <String, Object?>{
-        'style': AndroidNotificationStyle.bigPicture.index,
+        'style': AndroidNotificationStyle.custom.index,
         'styleInformation':
             (styleInformation as CustomStyleInformation?)?.toMap(),
       };
