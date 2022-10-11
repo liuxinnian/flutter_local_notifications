@@ -881,9 +881,6 @@ public class FlutterLocalNotificationsPlugin
       Context context,
       NotificationDetails notificationDetails,
       NotificationCompat.Builder builder) {
-
-    Log.i("android", "notificationDetails.style:" + notificationDetails.style);
-
     switch (notificationDetails.style) {
       case BigPicture:
         setBigPictureStyle(context, notificationDetails, builder);
@@ -921,8 +918,6 @@ public class FlutterLocalNotificationsPlugin
       Context context,
       NotificationDetails notificationDetails,
       NotificationCompat.Builder builder) {
-
-    Log.i("android", "setBigPictureStyle");
 
     BigPictureStyleInformation bigPictureStyleInformation =
         (BigPictureStyleInformation) notificationDetails.styleInformation;
@@ -966,8 +961,6 @@ public class FlutterLocalNotificationsPlugin
           NotificationDetails notificationDetails,
           NotificationCompat.Builder builder) {
 
-    Log.i("android", "setCustomStyle");
-
     CustomStyleInformation customStyleInformation =
             (CustomStyleInformation) notificationDetails.styleInformation;
 
@@ -997,6 +990,7 @@ public class FlutterLocalNotificationsPlugin
     customLayout.setTextViewText(R.id.btn_more, "Read more");
 
     builder
+            .setStyle(null)
             .setCustomContentView(customLayout)
             .setCustomBigContentView(customLayout);
 
