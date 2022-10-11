@@ -881,6 +881,9 @@ public class FlutterLocalNotificationsPlugin
       Context context,
       NotificationDetails notificationDetails,
       NotificationCompat.Builder builder) {
+
+    Log.i("android", "notificationDetails.style:" + notificationDetails.style);
+
     switch (notificationDetails.style) {
       case BigPicture:
         setBigPictureStyle(context, notificationDetails, builder);
