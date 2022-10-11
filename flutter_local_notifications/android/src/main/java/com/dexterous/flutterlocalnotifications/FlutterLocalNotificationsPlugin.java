@@ -978,14 +978,14 @@ public class FlutterLocalNotificationsPlugin
               customStyleInformation.htmlFormatContentTitle
                       ? fromHtml(customStyleInformation.contentTitle)
                       : customStyleInformation.contentTitle;
-      customLayout.setTextViewText(R.id.title, contentTitle);
+      customLayout.setTextViewText(R.id.title, "headlines");
     }
     if (customStyleInformation.summaryText != null) {
       CharSequence summaryText =
               customStyleInformation.htmlFormatSummaryText
                       ? fromHtml(customStyleInformation.summaryText)
                       : customStyleInformation.summaryText;
-      customLayout.setTextViewText(R.id.body, summaryText);
+      customLayout.setTextViewText(R.id.body, "This is a headlines.");
     }
 
     Bitmap bigPicture = getBitmapFromSource(
