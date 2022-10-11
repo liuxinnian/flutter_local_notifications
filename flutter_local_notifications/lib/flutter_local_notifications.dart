@@ -29,6 +29,7 @@ export 'src/platform_specifics/android/notification_sound.dart';
 export 'src/platform_specifics/android/person.dart';
 export 'src/platform_specifics/android/styles/big_picture_style_information.dart';
 export 'src/platform_specifics/android/styles/big_text_style_information.dart';
+export 'src/platform_specifics/android/styles/custom_style_information.dart';
 export 'src/platform_specifics/android/styles/default_style_information.dart';
 export 'src/platform_specifics/android/styles/inbox_style_information.dart';
 export 'src/platform_specifics/android/styles/media_style_information.dart';
