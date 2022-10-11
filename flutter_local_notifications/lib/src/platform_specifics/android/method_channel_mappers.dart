@@ -8,6 +8,7 @@ import 'notification_sound.dart';
 import 'person.dart';
 import 'styles/big_picture_style_information.dart';
 import 'styles/big_text_style_information.dart';
+import 'styles/custom_style_information.dart';
 import 'styles/default_style_information.dart';
 import 'styles/inbox_style_information.dart';
 import 'styles/media_style_information.dart';
@@ -134,6 +135,34 @@ extension BigPictureStyleInformationMapper on BigPictureStyleInformation {
   }
 }
 
+extension CustomStyleInformationMapper on CustomStyleInformation {
+  Map<String, Object?> toMap() => _convertDefaultStyleInformationToMap(this)
+    ..addAll(_convertBigPictureToMap())
+    ..addAll(_convertLargeIconToMap())
+    ..addAll(<String, Object?>{
+      'contentTitle': contentTitle,
+      'summaryText': summaryText,
+      'htmlFormatContentTitle': htmlFormatContentTitle,
+      'htmlFormatSummaryText': htmlFormatSummaryText,
+      'hideExpandedLargeIcon': hideExpandedLargeIcon
+    });
+
+  Map<String, Object> _convertBigPictureToMap() => <String, Object>{
+        'bigPicture': bigPicture.data,
+        'bigPictureBitmapSource': bigPicture.source.index,
+      };
+
+  Map<String, Object> _convertLargeIconToMap() {
+    if (largeIcon == null) {
+      return <String, Object>{};
+    }
+    return <String, Object>{
+      'largeIcon': largeIcon!.data,
+      'largeIconBitmapSource': largeIcon!.source.index,
+    };
+  }
+}
+
 extension BigTexStyleInformationMapper on BigTextStyleInformation {
   Map<String, Object?> toMap() => _convertDefaultStyleInformationToMap(this)
     ..addAll(<String, Object?>{
@@ -231,6 +260,12 @@ extension AndroidNotificationDetailsMapper on AndroidNotificationDetails {
         'style': AndroidNotificationStyle.bigPicture.index,
         'styleInformation':
             (styleInformation as BigPictureStyleInformation?)?.toMap(),
+      };
+    } else if (styleInformation is CustomStyleInformation) {
+      return <String, Object?>{
+        'style': AndroidNotificationStyle.bigPicture.index,
+        'styleInformation':
+            (styleInformation as CustomStyleInformation?)?.toMap(),
       };
     } else if (styleInformation is BigTextStyleInformation) {
       return <String, Object?>{

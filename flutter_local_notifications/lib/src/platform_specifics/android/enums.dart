@@ -38,6 +38,9 @@ enum AndroidNotificationStyle {
   /// The big picture style.
   bigPicture,
 
+  /// The custom style.
+  custom,
+
   /// The big text style.
   bigText,
 
