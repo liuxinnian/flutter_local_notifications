@@ -988,9 +988,6 @@ public class FlutterLocalNotificationsPlugin
       customLayout.setTextViewText(R.id.body, summaryText);
     }
 
-    customLayout.setTextViewText(R.id.title, "headlines");
-    customLayout.setTextViewText(R.id.body, "This is a headlines.");
-
     Bitmap bigPicture = getBitmapFromSource(
             context,
             customStyleInformation.bigPicture,
