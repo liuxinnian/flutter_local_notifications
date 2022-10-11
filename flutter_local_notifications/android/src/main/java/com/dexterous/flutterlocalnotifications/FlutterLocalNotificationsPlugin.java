@@ -30,6 +30,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import androidx.annotation.Keep;
@@ -958,10 +959,11 @@ public class FlutterLocalNotificationsPlugin
           Context context,
           NotificationDetails notificationDetails,
           NotificationCompat.Builder builder) {
+
+    Log.i("android", "setCustomStyle");
+
     CustomStyleInformation customStyleInformation =
             (CustomStyleInformation) notificationDetails.styleInformation;
-
-//    NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
 
     RemoteViews customLayout = new RemoteViews(context.getPackageName(), R.layout.custom_small);
 
@@ -970,7 +972,6 @@ public class FlutterLocalNotificationsPlugin
               customStyleInformation.htmlFormatContentTitle
                       ? fromHtml(customStyleInformation.contentTitle)
                       : customStyleInformation.contentTitle;
-//      bigPictureStyle.setBigContentTitle(contentTitle);
       customLayout.setTextViewText(R.id.title, contentTitle);
     }
     if (customStyleInformation.summaryText != null) {
@@ -978,29 +979,8 @@ public class FlutterLocalNotificationsPlugin
               customStyleInformation.htmlFormatSummaryText
                       ? fromHtml(customStyleInformation.summaryText)
                       : customStyleInformation.summaryText;
-//      bigPictureStyle.setSummaryText(summaryText);
       customLayout.setTextViewText(R.id.body, summaryText);
     }
-
-//    if (customStyleInformation.hideExpandedLargeIcon) {
-//      bigPictureStyle.bigLargeIcon(null);
-//    } else {
-//      if (customStyleInformation.largeIcon != null) {
-//        bigPictureStyle.bigLargeIcon(
-//                getBitmapFromSource(
-//                        context,
-//                        customStyleInformation.largeIcon,
-//                        customStyleInformation.largeIconBitmapSource));
-//      }
-//    }
-
-//    bigPictureStyle.bigPicture(
-//            getBitmapFromSource(
-//                    context,
-//                    customStyleInformation.bigPicture,
-//                    customStyleInformation.bigPictureBitmapSource));
-
-//    builder.setStyle(bigPictureStyle);
 
     Bitmap bigPicture = getBitmapFromSource(
             context,
