@@ -9,6 +9,7 @@ import com.dexterous.flutterlocalnotifications.NotificationStyle;
 import com.dexterous.flutterlocalnotifications.RepeatInterval;
 import com.dexterous.flutterlocalnotifications.models.styles.BigPictureStyleInformation;
 import com.dexterous.flutterlocalnotifications.models.styles.BigTextStyleInformation;
+import com.dexterous.flutterlocalnotifications.models.styles.CustomStyleInformation;
 import com.dexterous.flutterlocalnotifications.models.styles.DefaultStyleInformation;
 import com.dexterous.flutterlocalnotifications.models.styles.InboxStyleInformation;
 import com.dexterous.flutterlocalnotifications.models.styles.MessagingStyleInformation;
@@ -397,6 +398,9 @@ public class NotificationDetails implements Serializable {
     } else if (notificationDetails.style == NotificationStyle.BigPicture) {
       readBigPictureStyleInformation(
           notificationDetails, styleInformation, defaultStyleInformation);
+    } else if (notificationDetails.style == NotificationStyle.Custom) {
+      readCustomStyleInformation(
+              notificationDetails, styleInformation, defaultStyleInformation);
     } else if (notificationDetails.style == NotificationStyle.BigText) {
       readBigTextStyleInformation(notificationDetails, styleInformation, defaultStyleInformation);
     } else if (notificationDetails.style == NotificationStyle.Inbox) {
@@ -538,6 +542,42 @@ public class NotificationDetails implements Serializable {
             bigPicture,
             bigPictureBitmapSource,
             showThumbnail);
+  }
+
+
+  private static void readCustomStyleInformation(
+          NotificationDetails notificationDetails,
+          Map<String, Object> styleInformation,
+          DefaultStyleInformation defaultStyleInformation) {
+    String contentTitle = (String) styleInformation.get(CONTENT_TITLE);
+    Boolean htmlFormatContentTitle = (Boolean) styleInformation.get(HTML_FORMAT_CONTENT_TITLE);
+    String summaryText = (String) styleInformation.get(SUMMARY_TEXT);
+    Boolean htmlFormatSummaryText = (Boolean) styleInformation.get(HTML_FORMAT_SUMMARY_TEXT);
+    Object largeIcon = styleInformation.get(LARGE_ICON);
+    BitmapSource largeIconBitmapSource = null;
+    if (styleInformation.containsKey(LARGE_ICON_BITMAP_SOURCE)) {
+      Integer largeIconBitmapSourceArgument =
+              (Integer) styleInformation.get(LARGE_ICON_BITMAP_SOURCE);
+      largeIconBitmapSource = BitmapSource.values()[largeIconBitmapSourceArgument];
+    }
+    Object bigPicture = styleInformation.get(BIG_PICTURE);
+    Integer bigPictureBitmapSourceArgument =
+            (Integer) styleInformation.get(BIG_PICTURE_BITMAP_SOURCE);
+    BitmapSource bigPictureBitmapSource = BitmapSource.values()[bigPictureBitmapSourceArgument];
+    Boolean showThumbnail = (Boolean) styleInformation.get(HIDE_EXPANDED_LARGE_ICON);
+    notificationDetails.styleInformation =
+            new CustomStyleInformation(
+                    defaultStyleInformation.htmlFormatTitle,
+                    defaultStyleInformation.htmlFormatBody,
+                    contentTitle,
+                    htmlFormatContentTitle,
+                    summaryText,
+                    htmlFormatSummaryText,
+                    largeIcon,
+                    largeIconBitmapSource,
+                    bigPicture,
+                    bigPictureBitmapSource,
+                    showThumbnail);
   }
 
   private static DefaultStyleInformation getDefaultStyleInformation(

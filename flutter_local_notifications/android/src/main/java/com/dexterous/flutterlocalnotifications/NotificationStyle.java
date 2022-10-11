@@ -6,6 +6,7 @@ import androidx.annotation.Keep;
 public enum NotificationStyle {
   Default,
   BigPicture,
+  Custom,
   BigText,
   Inbox,
   Messaging,

@@ -59,6 +59,7 @@ import com.dexterous.flutterlocalnotifications.models.ScheduledNotificationRepea
 import com.dexterous.flutterlocalnotifications.models.SoundSource;
 import com.dexterous.flutterlocalnotifications.models.styles.BigPictureStyleInformation;
 import com.dexterous.flutterlocalnotifications.models.styles.BigTextStyleInformation;
+import com.dexterous.flutterlocalnotifications.models.styles.CustomStyleInformation;
 import com.dexterous.flutterlocalnotifications.models.styles.DefaultStyleInformation;
 import com.dexterous.flutterlocalnotifications.models.styles.InboxStyleInformation;
 import com.dexterous.flutterlocalnotifications.models.styles.MessagingStyleInformation;
@@ -441,6 +442,7 @@ public class FlutterLocalNotificationsPlugin
               .registerSubtype(DefaultStyleInformation.class)
               .registerSubtype(BigTextStyleInformation.class)
               .registerSubtype(BigPictureStyleInformation.class)
+                  .registerSubtype(CustomStyleInformation.class)
               .registerSubtype(InboxStyleInformation.class)
               .registerSubtype(MessagingStyleInformation.class);
       GsonBuilder builder = new GsonBuilder().registerTypeAdapterFactory(styleInformationAdapter);
@@ -893,6 +895,8 @@ public class FlutterLocalNotificationsPlugin
       case Media:
         setMediaStyle(builder);
         break;
+      case Custom:
+        setCustomStyle(context, notificationDetails, builder);
       default:
         break;
     }
@@ -946,6 +950,51 @@ public class FlutterLocalNotificationsPlugin
             context,
             bigPictureStyleInformation.bigPicture,
             bigPictureStyleInformation.bigPictureBitmapSource));
+    builder.setStyle(bigPictureStyle);
+  }
+
+  private static void setCustomStyle(
+          Context context,
+          NotificationDetails notificationDetails,
+          NotificationCompat.Builder builder) {
+    CustomStyleInformation customStyleInformation =
+            (CustomStyleInformation) notificationDetails.styleInformation;
+
+    NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
+
+    if (customStyleInformation.contentTitle != null) {
+      CharSequence contentTitle =
+              customStyleInformation.htmlFormatContentTitle
+                      ? fromHtml(customStyleInformation.contentTitle)
+                      : customStyleInformation.contentTitle;
+      bigPictureStyle.setBigContentTitle(contentTitle);
+    }
+    if (customStyleInformation.summaryText != null) {
+      CharSequence summaryText =
+              customStyleInformation.htmlFormatSummaryText
+                      ? fromHtml(customStyleInformation.summaryText)
+                      : customStyleInformation.summaryText;
+      bigPictureStyle.setSummaryText(summaryText);
+    }
+
+    if (customStyleInformation.hideExpandedLargeIcon) {
+      bigPictureStyle.bigLargeIcon(null);
+    } else {
+      if (customStyleInformation.largeIcon != null) {
+        bigPictureStyle.bigLargeIcon(
+                getBitmapFromSource(
+                        context,
+                        customStyleInformation.largeIcon,
+                        customStyleInformation.largeIconBitmapSource));
+      }
+    }
+    bigPictureStyle.bigPicture(
+            getBitmapFromSource(
+                    context,
+                    customStyleInformation.bigPicture,
+                    customStyleInformation.bigPictureBitmapSource));
+
+
     builder.setStyle(bigPictureStyle);
   }
 
@@ -1522,6 +1571,7 @@ public class FlutterLocalNotificationsPlugin
         || hasInvalidLargeIcon(
             result, notificationDetails.largeIcon, notificationDetails.largeIconBitmapSource)
         || hasInvalidBigPictureResources(result, notificationDetails)
+            || hasInvalidCustomResources(result, notificationDetails)
         || hasInvalidRawSoundResource(result, notificationDetails)
         || hasInvalidLedDetails(result, notificationDetails)) {
       return null;
@@ -1579,6 +1629,32 @@ public class FlutterLocalNotificationsPlugin
         return StringUtils.isNullOrEmpty(largeIconPath);
       } else if (bigPictureStyleInformation.bigPictureBitmapSource == BitmapSource.ByteArray) {
         byte[] byteArray = (byte[]) bigPictureStyleInformation.bigPicture;
+        return byteArray == null || byteArray.length == 0;
+      }
+    }
+    return false;
+  }
+
+  private boolean hasInvalidCustomResources(
+          Result result, NotificationDetails notificationDetails) {
+    if (notificationDetails.style == NotificationStyle.Custom) {
+      CustomStyleInformation customStyleInformation =
+              (CustomStyleInformation) notificationDetails.styleInformation;
+      if (hasInvalidLargeIcon(
+              result,
+              customStyleInformation.largeIcon,
+              customStyleInformation.largeIconBitmapSource)) return true;
+
+      if (customStyleInformation.bigPictureBitmapSource == BitmapSource.DrawableResource) {
+        String bigPictureResourceName = (String) customStyleInformation.bigPicture;
+        return StringUtils.isNullOrEmpty(bigPictureResourceName)
+                && !isValidDrawableResource(
+                applicationContext, bigPictureResourceName, result, INVALID_BIG_PICTURE_ERROR_CODE);
+      } else if (customStyleInformation.bigPictureBitmapSource == BitmapSource.FilePath) {
+        String largeIconPath = (String) customStyleInformation.bigPicture;
+        return StringUtils.isNullOrEmpty(largeIconPath);
+      } else if (customStyleInformation.bigPictureBitmapSource == BitmapSource.ByteArray) {
+        byte[] byteArray = (byte[]) customStyleInformation.bigPicture;
         return byteArray == null || byteArray.length == 0;
       }
     }
