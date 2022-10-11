@@ -990,7 +990,6 @@ public class FlutterLocalNotificationsPlugin
     customLayout.setTextViewText(R.id.btn_more, "Read more");
 
     builder
-            .setStyle(null)
             .setCustomContentView(customLayout)
             .setCustomBigContentView(customLayout);
 
