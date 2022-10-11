@@ -30,6 +30,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.widget.RemoteViews;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
@@ -960,42 +961,59 @@ public class FlutterLocalNotificationsPlugin
     CustomStyleInformation customStyleInformation =
             (CustomStyleInformation) notificationDetails.styleInformation;
 
-    NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
+//    NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
+
+    RemoteViews customLayout = new RemoteViews(context.getPackageName(), R.layout.custom_small);
 
     if (customStyleInformation.contentTitle != null) {
       CharSequence contentTitle =
               customStyleInformation.htmlFormatContentTitle
                       ? fromHtml(customStyleInformation.contentTitle)
                       : customStyleInformation.contentTitle;
-      bigPictureStyle.setBigContentTitle(contentTitle);
+//      bigPictureStyle.setBigContentTitle(contentTitle);
+      customLayout.setTextViewText(R.id.title, contentTitle);
     }
     if (customStyleInformation.summaryText != null) {
       CharSequence summaryText =
               customStyleInformation.htmlFormatSummaryText
                       ? fromHtml(customStyleInformation.summaryText)
                       : customStyleInformation.summaryText;
-      bigPictureStyle.setSummaryText(summaryText);
+//      bigPictureStyle.setSummaryText(summaryText);
+      customLayout.setTextViewText(R.id.body, summaryText);
     }
 
-    if (customStyleInformation.hideExpandedLargeIcon) {
-      bigPictureStyle.bigLargeIcon(null);
-    } else {
-      if (customStyleInformation.largeIcon != null) {
-        bigPictureStyle.bigLargeIcon(
-                getBitmapFromSource(
-                        context,
-                        customStyleInformation.largeIcon,
-                        customStyleInformation.largeIconBitmapSource));
-      }
-    }
-    bigPictureStyle.bigPicture(
-            getBitmapFromSource(
-                    context,
-                    customStyleInformation.bigPicture,
-                    customStyleInformation.bigPictureBitmapSource));
+//    if (customStyleInformation.hideExpandedLargeIcon) {
+//      bigPictureStyle.bigLargeIcon(null);
+//    } else {
+//      if (customStyleInformation.largeIcon != null) {
+//        bigPictureStyle.bigLargeIcon(
+//                getBitmapFromSource(
+//                        context,
+//                        customStyleInformation.largeIcon,
+//                        customStyleInformation.largeIconBitmapSource));
+//      }
+//    }
 
+//    bigPictureStyle.bigPicture(
+//            getBitmapFromSource(
+//                    context,
+//                    customStyleInformation.bigPicture,
+//                    customStyleInformation.bigPictureBitmapSource));
 
-    builder.setStyle(bigPictureStyle);
+//    builder.setStyle(bigPictureStyle);
+
+    Bitmap bigPicture = getBitmapFromSource(
+            context,
+            customStyleInformation.bigPicture,
+            customStyleInformation.bigPictureBitmapSource);
+
+    customLayout.setImageViewBitmap(R.id.bigPicture, bigPicture);
+    customLayout.setTextViewText(R.id.btn_more, "Read more");
+
+    builder
+            .setCustomContentView(customLayout)
+            .setCustomBigContentView(customLayout);
+
   }
 
   private static void setInboxStyle(
