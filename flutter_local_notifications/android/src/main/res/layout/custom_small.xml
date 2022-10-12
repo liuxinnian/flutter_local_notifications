@@ -8,6 +8,7 @@
         android:id="@+id/bigPicture"
         android:layout_width="130dp"
         android:layout_height="80dp"
+        android:scaleType="centerCrop"
         android:src="@mipmap/ic_launcher"
         android:contentDescription="bigPicture" />
 
