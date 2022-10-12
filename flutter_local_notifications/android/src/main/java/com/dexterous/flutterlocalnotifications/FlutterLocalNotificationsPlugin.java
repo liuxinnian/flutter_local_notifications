@@ -965,7 +965,14 @@ public class FlutterLocalNotificationsPlugin
     CustomStyleInformation customStyleInformation =
             (CustomStyleInformation) notificationDetails.styleInformation;
 
-    RemoteViews customLayout = new RemoteViews(context.getPackageName(), R.layout.custom_small);
+    int layoutId;
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+      layoutId =   R.layout.custom_s_small;
+    }else{
+      layoutId =  R.layout.custom_small;
+    }
+
+    RemoteViews customLayout = new RemoteViews(context.getPackageName(), layoutId);
 
     if (customStyleInformation.contentTitle != null) {
       CharSequence contentTitle =
