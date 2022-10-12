@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/bigPicture"
-        android:layout_width="80dp"
-        android:layout_height="48dp"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_launcher"
         android:contentDescription="bigPicture" />
@@ -24,10 +24,9 @@
         <TextView
             android:id="@+id/body"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:maxLines="2"
-            style="@style/TextAppearance.Compat.Notification.Title"
-             />
+            android:layout_height="wrap_content"
+            android:maxLines="3"
+            style="@style/TextAppearance.Compat.Notification.Title" />
 
     </LinearLayout>
 </LinearLayout>
