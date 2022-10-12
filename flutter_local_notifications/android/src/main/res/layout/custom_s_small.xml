@@ -23,8 +23,7 @@
             android:id="@+id/body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="2"
-            style="@style/TextAppearance.Compat.Notification.Line2" />
+            android:maxLines="2" />
 
     </LinearLayout>
 </LinearLayout>
