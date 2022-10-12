@@ -339,6 +339,7 @@ public class FlutterLocalNotificationsPlugin
     builder.setLargeIcon(
         getBitmapFromSource(
             context, notificationDetails.largeIcon, notificationDetails.largeIconBitmapSource));
+
     if (notificationDetails.color != null) {
       builder.setColor(notificationDetails.color.intValue());
     }
