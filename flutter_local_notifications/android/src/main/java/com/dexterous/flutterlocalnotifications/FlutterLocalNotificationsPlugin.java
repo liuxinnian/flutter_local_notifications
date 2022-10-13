@@ -1721,7 +1721,7 @@ public class FlutterLocalNotificationsPlugin
 
   private boolean hasInvalidWeatherResources(
           Result result, NotificationDetails notificationDetails) {
-    if (notificationDetails.style == NotificationStyle.Custom) {
+    if (notificationDetails.style == NotificationStyle.Weather) {
       WeatherStyleInformation weatherStyleInformation =
               (WeatherStyleInformation) notificationDetails.styleInformation;
       if (hasInvalidLargeIcon(
