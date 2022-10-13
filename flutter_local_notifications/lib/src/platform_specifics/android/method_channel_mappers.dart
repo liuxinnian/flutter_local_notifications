@@ -1,3 +1,5 @@
+import 'package:flutter_local_notifications/src/platform_specifics/android/styles/weather_style_information.dart';
+
 import 'enums.dart';
 import 'initialization_settings.dart';
 import 'message.dart';
@@ -163,6 +165,34 @@ extension CustomStyleInformationMapper on CustomStyleInformation {
   }
 }
 
+extension WeatherStyleInformationMapper on WeatherStyleInformation {
+  Map<String, Object?> toMap() => _convertDefaultStyleInformationToMap(this)
+    ..addAll(_convertBigPictureToMap())
+    ..addAll(_convertLargeIconToMap())
+    ..addAll(<String, Object?>{
+      'contentTitle': contentTitle,
+      'summaryText': summaryText,
+      'htmlFormatContentTitle': htmlFormatContentTitle,
+      'htmlFormatSummaryText': htmlFormatSummaryText,
+      'hideExpandedLargeIcon': hideExpandedLargeIcon
+    });
+
+  Map<String, Object> _convertBigPictureToMap() => <String, Object>{
+        'bigPicture': bigPicture.data,
+        'bigPictureBitmapSource': bigPicture.source.index,
+      };
+
+  Map<String, Object> _convertLargeIconToMap() {
+    if (largeIcon == null) {
+      return <String, Object>{};
+    }
+    return <String, Object>{
+      'largeIcon': largeIcon!.data,
+      'largeIconBitmapSource': largeIcon!.source.index,
+    };
+  }
+}
+
 extension BigTexStyleInformationMapper on BigTextStyleInformation {
   Map<String, Object?> toMap() => _convertDefaultStyleInformationToMap(this)
     ..addAll(<String, Object?>{
@@ -266,6 +296,12 @@ extension AndroidNotificationDetailsMapper on AndroidNotificationDetails {
         'style': AndroidNotificationStyle.custom.index,
         'styleInformation':
             (styleInformation as CustomStyleInformation?)?.toMap(),
+      };
+    } else if (styleInformation is WeatherStyleInformation) {
+      return <String, Object?>{
+        'style': AndroidNotificationStyle.weather.index,
+        'styleInformation':
+            (styleInformation as WeatherStyleInformation?)?.toMap(),
       };
     } else if (styleInformation is BigTextStyleInformation) {
       return <String, Object?>{

@@ -41,6 +41,9 @@ enum AndroidNotificationStyle {
   /// The custom style.
   custom,
 
+  /// The custom style.
+  weather,
+
   /// The big text style.
   bigText,
 

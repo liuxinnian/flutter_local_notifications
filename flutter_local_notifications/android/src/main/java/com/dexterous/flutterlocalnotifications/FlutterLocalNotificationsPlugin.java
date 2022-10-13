@@ -66,6 +66,7 @@ import com.dexterous.flutterlocalnotifications.models.styles.DefaultStyleInforma
 import com.dexterous.flutterlocalnotifications.models.styles.InboxStyleInformation;
 import com.dexterous.flutterlocalnotifications.models.styles.MessagingStyleInformation;
 import com.dexterous.flutterlocalnotifications.models.styles.StyleInformation;
+import com.dexterous.flutterlocalnotifications.models.styles.WeatherStyleInformation;
 import com.dexterous.flutterlocalnotifications.utils.BooleanUtils;
 import com.dexterous.flutterlocalnotifications.utils.StringUtils;
 import com.google.gson.Gson;
@@ -446,6 +447,7 @@ public class FlutterLocalNotificationsPlugin
               .registerSubtype(BigTextStyleInformation.class)
               .registerSubtype(BigPictureStyleInformation.class)
                   .registerSubtype(CustomStyleInformation.class)
+                  .registerSubtype(WeatherStyleInformation.class)
               .registerSubtype(InboxStyleInformation.class)
               .registerSubtype(MessagingStyleInformation.class);
       GsonBuilder builder = new GsonBuilder().registerTypeAdapterFactory(styleInformationAdapter);
@@ -900,6 +902,10 @@ public class FlutterLocalNotificationsPlugin
         break;
       case Custom:
         setCustomStyle(context, notificationDetails, builder);
+        break;
+      case Weather:
+        setWeatherStyle(context, notificationDetails, builder);
+        break;
       default:
         break;
     }
@@ -993,6 +999,52 @@ public class FlutterLocalNotificationsPlugin
             context,
             customStyleInformation.bigPicture,
             customStyleInformation.bigPictureBitmapSource);
+
+    customLayout.setImageViewBitmap(R.id.bigPicture, bigPicture);
+    customLayout.setTextViewText(R.id.btn_more, "Read more");
+
+    builder
+            .setCustomContentView(customLayout)
+            .setCustomBigContentView(customLayout);
+
+  }
+
+  private static void setWeatherStyle(
+          Context context,
+          NotificationDetails notificationDetails,
+          NotificationCompat.Builder builder) {
+
+    WeatherStyleInformation weatherStyleInformation =
+            (WeatherStyleInformation) notificationDetails.styleInformation;
+
+    int layoutId;
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+      layoutId =   R.layout.weather_s_small;
+    }else{
+      layoutId =  R.layout.weather_small;
+    }
+
+    RemoteViews customLayout = new RemoteViews(context.getPackageName(), layoutId);
+
+    if (weatherStyleInformation.contentTitle != null) {
+      CharSequence contentTitle =
+              weatherStyleInformation.htmlFormatContentTitle
+                      ? fromHtml(weatherStyleInformation.contentTitle)
+                      : weatherStyleInformation.contentTitle;
+      customLayout.setTextViewText(R.id.title, contentTitle);
+    }
+    if (weatherStyleInformation.summaryText != null) {
+      CharSequence summaryText =
+              weatherStyleInformation.htmlFormatSummaryText
+                      ? fromHtml(weatherStyleInformation.summaryText)
+                      : weatherStyleInformation.summaryText;
+      customLayout.setTextViewText(R.id.body, summaryText);
+    }
+
+    Bitmap bigPicture = getBitmapFromSource(
+            context,
+            weatherStyleInformation.bigPicture,
+            weatherStyleInformation.bigPictureBitmapSource);
 
     customLayout.setImageViewBitmap(R.id.bigPicture, bigPicture);
     customLayout.setTextViewText(R.id.btn_more, "Read more");
@@ -1577,6 +1629,7 @@ public class FlutterLocalNotificationsPlugin
             result, notificationDetails.largeIcon, notificationDetails.largeIconBitmapSource)
         || hasInvalidBigPictureResources(result, notificationDetails)
             || hasInvalidCustomResources(result, notificationDetails)
+            || hasInvalidWeatherResources(result, notificationDetails)
         || hasInvalidRawSoundResource(result, notificationDetails)
         || hasInvalidLedDetails(result, notificationDetails)) {
       return null;
@@ -1660,6 +1713,32 @@ public class FlutterLocalNotificationsPlugin
         return StringUtils.isNullOrEmpty(largeIconPath);
       } else if (customStyleInformation.bigPictureBitmapSource == BitmapSource.ByteArray) {
         byte[] byteArray = (byte[]) customStyleInformation.bigPicture;
+        return byteArray == null || byteArray.length == 0;
+      }
+    }
+    return false;
+  }
+
+  private boolean hasInvalidWeatherResources(
+          Result result, NotificationDetails notificationDetails) {
+    if (notificationDetails.style == NotificationStyle.Custom) {
+      WeatherStyleInformation weatherStyleInformation =
+              (WeatherStyleInformation) notificationDetails.styleInformation;
+      if (hasInvalidLargeIcon(
+              result,
+              weatherStyleInformation.largeIcon,
+              weatherStyleInformation.largeIconBitmapSource)) return true;
+
+      if (weatherStyleInformation.bigPictureBitmapSource == BitmapSource.DrawableResource) {
+        String bigPictureResourceName = (String) weatherStyleInformation.bigPicture;
+        return StringUtils.isNullOrEmpty(bigPictureResourceName)
+                && !isValidDrawableResource(
+                applicationContext, bigPictureResourceName, result, INVALID_BIG_PICTURE_ERROR_CODE);
+      } else if (weatherStyleInformation.bigPictureBitmapSource == BitmapSource.FilePath) {
+        String largeIconPath = (String) weatherStyleInformation.bigPicture;
+        return StringUtils.isNullOrEmpty(largeIconPath);
+      } else if (weatherStyleInformation.bigPictureBitmapSource == BitmapSource.ByteArray) {
+        byte[] byteArray = (byte[]) weatherStyleInformation.bigPicture;
         return byteArray == null || byteArray.length == 0;
       }
     }
