@@ -1,5 +1,3 @@
-import 'package:flutter_local_notifications/src/platform_specifics/android/styles/weather_style_information.dart';
-
 import 'enums.dart';
 import 'initialization_settings.dart';
 import 'message.dart';
@@ -15,6 +13,7 @@ import 'styles/default_style_information.dart';
 import 'styles/inbox_style_information.dart';
 import 'styles/media_style_information.dart';
 import 'styles/messaging_style_information.dart';
+import 'styles/weather_style_information.dart';
 
 // ignore_for_file: avoid_as, public_member_api_docs
 extension AndroidInitializationSettingsMapper on AndroidInitializationSettings {
@@ -169,12 +168,16 @@ extension WeatherStyleInformationMapper on WeatherStyleInformation {
   Map<String, Object?> toMap() => _convertDefaultStyleInformationToMap(this)
     ..addAll(_convertBigPictureToMap())
     ..addAll(_convertLargeIconToMap())
+    ..addAll(_convertTodayPictureToMap())
+    ..addAll(_convertTomorrowPictureToMap())
     ..addAll(<String, Object?>{
       'contentTitle': contentTitle,
       'summaryText': summaryText,
       'htmlFormatContentTitle': htmlFormatContentTitle,
       'htmlFormatSummaryText': htmlFormatSummaryText,
-      'hideExpandedLargeIcon': hideExpandedLargeIcon
+      'hideExpandedLargeIcon': hideExpandedLargeIcon,
+      'todayWeather': todayWeather,
+      'tomorrowWeather': tomorrowWeather,
     });
 
   Map<String, Object> _convertBigPictureToMap() => <String, Object>{
@@ -191,6 +194,16 @@ extension WeatherStyleInformationMapper on WeatherStyleInformation {
       'largeIconBitmapSource': largeIcon!.source.index,
     };
   }
+
+  Map<String, Object> _convertTodayPictureToMap() => <String, Object>{
+        'todayPicture': todayPicture.data,
+        'todayPictureBitmapSource': todayPicture.source.index,
+      };
+
+  Map<String, Object> _convertTomorrowPictureToMap() => <String, Object>{
+        'tomorrowPicture': tomorrowPicture.data,
+        'tomorrowPictureBitmapSource': tomorrowPicture.source.index,
+      };
 }
 
 extension BigTexStyleInformationMapper on BigTextStyleInformation {

@@ -7,6 +7,10 @@ class WeatherStyleInformation extends DefaultStyleInformation {
   /// Constructs an instance of [WeatherStyleInformation].
   const WeatherStyleInformation(
     this.bigPicture, {
+    required this.todayWeather,
+    required this.tomorrowWeather,
+    required this.todayPicture,
+    required this.tomorrowPicture,
     this.contentTitle,
     this.summaryText,
     this.htmlFormatContentTitle = false,
@@ -36,9 +40,21 @@ class WeatherStyleInformation extends DefaultStyleInformation {
   ///  shown.
   final AndroidBitmap<Object>? largeIcon;
 
-  /// The bitmap to be used as the payload for the Custom notification.
+  /// The bitmap to be used as the payload for the Weather notification.
   final AndroidBitmap<Object> bigPicture;
 
   /// Hides the large icon when showing the expanded notification.
   final bool hideExpandedLargeIcon;
+
+  /// Overrides todayWeather in the today weather of the template.
+  final String todayWeather;
+
+  /// Overrides tomorrowWeather in the tomorrow weather of the template.
+  final String tomorrowWeather;
+
+  /// The bitmap to be used as the payload for the Weather notification.
+  final AndroidBitmap<Object> todayPicture;
+
+  /// The bitmap to be used as the payload for the Weather notification.
+  final AndroidBitmap<Object> tomorrowPicture;
 }

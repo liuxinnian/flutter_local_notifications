@@ -59,6 +59,12 @@ public class NotificationDetails implements Serializable {
   private static final String HTML_FORMAT_CONTENT_TITLE = "htmlFormatContentTitle";
   private static final String SUMMARY_TEXT = "summaryText";
   private static final String HTML_FORMAT_SUMMARY_TEXT = "htmlFormatSummaryText";
+  private static final String TODAY_WEATHER = "todayWeather";
+  private static final String TOMORROW_WEATHER = "tomorrowWeather";
+  private static final String TODAY_PICTURE = "todayPicture";
+  private static final String TODAY_PICTURE_BITMAP_SOURCE = "todayPictureBitmapSource";
+  private static final String TOMORROW_PICTURE = "tomorrowPicture";
+  private static final String TOMORROW_PICTURE_BITMAP_SOURCE = "tomorrowPictureBitmapSource";
   private static final String LINES = "lines";
   private static final String HTML_FORMAT_LINES = "htmlFormatLines";
   private static final String HTML_FORMAT_TITLE = "htmlFormatTitle";
@@ -605,6 +611,18 @@ public class NotificationDetails implements Serializable {
             (Integer) styleInformation.get(BIG_PICTURE_BITMAP_SOURCE);
     BitmapSource bigPictureBitmapSource = BitmapSource.values()[bigPictureBitmapSourceArgument];
     Boolean showThumbnail = (Boolean) styleInformation.get(HIDE_EXPANDED_LARGE_ICON);
+    //Weather
+    String todayWeather = (String) styleInformation.get(TODAY_WEATHER);
+    String tomorrowWeather = (String) styleInformation.get(TOMORROW_WEATHER);
+    Object todayPicture = styleInformation.get(TODAY_PICTURE);
+    Integer todayPictureBitmapSourceArgument =
+            (Integer) styleInformation.get(TODAY_PICTURE_BITMAP_SOURCE);
+    BitmapSource todayPictureBitmapSource = BitmapSource.values()[todayPictureBitmapSourceArgument];
+    Object tomorrowPicture = styleInformation.get(TOMORROW_PICTURE);
+    Integer tomorrowPictureBitmapSourceArgument =
+            (Integer) styleInformation.get(TOMORROW_PICTURE_BITMAP_SOURCE);
+    BitmapSource tomorrowPictureBitmapSource = BitmapSource.values()[tomorrowPictureBitmapSourceArgument];
+
     notificationDetails.styleInformation =
             new WeatherStyleInformation(
                     defaultStyleInformation.htmlFormatTitle,
@@ -617,6 +635,12 @@ public class NotificationDetails implements Serializable {
                     largeIconBitmapSource,
                     bigPicture,
                     bigPictureBitmapSource,
+                    todayWeather,
+                    tomorrowWeather,
+                    todayPicture,
+                    todayPictureBitmapSource,
+                    tomorrowPicture,
+                    tomorrowPictureBitmapSource,
                     showThumbnail);
   }
 

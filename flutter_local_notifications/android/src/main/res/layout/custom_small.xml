@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/bigPicture"
-        android:layout_width="135dp"
-        android:layout_height="85dp"
+        android:layout_width="150dp"
+        android:layout_height="95dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_launcher"
         android:contentDescription="bigPicture" />

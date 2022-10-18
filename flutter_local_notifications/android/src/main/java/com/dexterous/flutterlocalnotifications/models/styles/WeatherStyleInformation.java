@@ -15,6 +15,13 @@ public class WeatherStyleInformation extends DefaultStyleInformation {
   public Object bigPicture;
   public BitmapSource bigPictureBitmapSource;
   public Boolean hideExpandedLargeIcon;
+  //Weather
+  public String todayWeather;
+  public String tomorrowWeather;
+  public Object todayPicture;
+  public BitmapSource todayPictureBitmapSource;
+  public Object tomorrowPicture;
+  public BitmapSource tomorrowPictureBitmapSource;
 
   public WeatherStyleInformation(
       Boolean htmlFormatTitle,
@@ -27,6 +34,12 @@ public class WeatherStyleInformation extends DefaultStyleInformation {
       BitmapSource largeIconBitmapSource,
       Object bigPicture,
       BitmapSource bigPictureBitmapSource,
+      String todayWeather,
+      String tomorrowWeather,
+      Object todayPicture,
+      BitmapSource todayPictureBitmapSource,
+      Object tomorrowPicture,
+      BitmapSource tomorrowPictureBitmapSource,
       Boolean hideExpandedLargeIcon) {
     super(htmlFormatTitle, htmlFormatBody);
     this.contentTitle = contentTitle;
@@ -38,5 +51,11 @@ public class WeatherStyleInformation extends DefaultStyleInformation {
     this.bigPicture = bigPicture;
     this.bigPictureBitmapSource = bigPictureBitmapSource;
     this.hideExpandedLargeIcon = hideExpandedLargeIcon;
+    this.todayWeather = todayWeather;
+    this.tomorrowWeather = tomorrowWeather;
+    this.todayPicture = todayPicture;
+    this.todayPictureBitmapSource = todayPictureBitmapSource;
+    this.tomorrowPicture = tomorrowPicture;
+    this.tomorrowPictureBitmapSource = tomorrowPictureBitmapSource;
   }
 }

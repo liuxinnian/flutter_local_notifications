@@ -158,6 +158,8 @@ public class FlutterLocalNotificationsPlugin
   private static final String INVALID_ICON_ERROR_CODE = "invalid_icon";
   private static final String INVALID_LARGE_ICON_ERROR_CODE = "invalid_large_icon";
   private static final String INVALID_BIG_PICTURE_ERROR_CODE = "invalid_big_picture";
+  private static final String INVALID_TODAY_PICTURE_ERROR_CODE = "invalid_today_picture";
+  private static final String INVALID_TOMORROW_PICTURE_ERROR_CODE = "invalid_tomorrow_picture";
   private static final String INVALID_SOUND_ERROR_CODE = "invalid_sound";
   private static final String INVALID_LED_DETAILS_ERROR_CODE = "invalid_led_details";
   private static final String UNSUPPORTED_OS_VERSION_ERROR_CODE = "unsupported_os_version";
@@ -1041,13 +1043,30 @@ public class FlutterLocalNotificationsPlugin
       customLayout.setTextViewText(R.id.body, summaryText);
     }
 
+    //Weather
+    CharSequence todayWeather =weatherStyleInformation.todayWeather;
+    customLayout.setTextViewText(R.id.todayWeather, todayWeather);
+
+    CharSequence tomorrowWeather =weatherStyleInformation.tomorrowWeather;
+    customLayout.setTextViewText(R.id.tomorrowWeather, tomorrowWeather);
+
     Bitmap bigPicture = getBitmapFromSource(
             context,
             weatherStyleInformation.bigPicture,
             weatherStyleInformation.bigPictureBitmapSource);
-
     customLayout.setImageViewBitmap(R.id.bigPicture, bigPicture);
-    customLayout.setTextViewText(R.id.btn_more, "Read more");
+
+    Bitmap todayPicture = getBitmapFromSource(
+            context,
+            weatherStyleInformation.todayPicture,
+            weatherStyleInformation.todayPictureBitmapSource);
+    customLayout.setImageViewBitmap(R.id.todayPicture, todayPicture);
+
+    Bitmap tomorrowPicture = getBitmapFromSource(
+            context,
+            weatherStyleInformation.tomorrowPicture,
+            weatherStyleInformation.tomorrowPictureBitmapSource);
+    customLayout.setImageViewBitmap(R.id.tomorrowPicture, tomorrowPicture);
 
     builder
             .setCustomContentView(customLayout)
@@ -1741,6 +1760,33 @@ public class FlutterLocalNotificationsPlugin
         byte[] byteArray = (byte[]) weatherStyleInformation.bigPicture;
         return byteArray == null || byteArray.length == 0;
       }
+
+      if (weatherStyleInformation.todayPictureBitmapSource == BitmapSource.DrawableResource) {
+        String todayPictureResourceName = (String) weatherStyleInformation.todayPicture;
+        return StringUtils.isNullOrEmpty(todayPictureResourceName)
+                && !isValidDrawableResource(
+                applicationContext, todayPictureResourceName, result, INVALID_TODAY_PICTURE_ERROR_CODE);
+      } else if (weatherStyleInformation.todayPictureBitmapSource == BitmapSource.FilePath) {
+        String todayPicturePath = (String) weatherStyleInformation.todayPicture;
+        return StringUtils.isNullOrEmpty(todayPicturePath);
+      } else if (weatherStyleInformation.todayPictureBitmapSource == BitmapSource.ByteArray) {
+        byte[] byteArray = (byte[]) weatherStyleInformation.todayPicture;
+        return byteArray == null || byteArray.length == 0;
+      }
+
+      if (weatherStyleInformation.tomorrowPictureBitmapSource == BitmapSource.DrawableResource) {
+        String tomorrowPictureResourceName = (String) weatherStyleInformation.tomorrowPicture;
+        return StringUtils.isNullOrEmpty(tomorrowPictureResourceName)
+                && !isValidDrawableResource(
+                applicationContext, tomorrowPictureResourceName, result, INVALID_TOMORROW_PICTURE_ERROR_CODE);
+      } else if (weatherStyleInformation.tomorrowPictureBitmapSource == BitmapSource.FilePath) {
+        String tomorrowPicturePath = (String) weatherStyleInformation.tomorrowPicture;
+        return StringUtils.isNullOrEmpty(tomorrowPicturePath);
+      } else if (weatherStyleInformation.tomorrowPictureBitmapSource == BitmapSource.ByteArray) {
+        byte[] byteArray = (byte[]) weatherStyleInformation.tomorrowPicture;
+        return byteArray == null || byteArray.length == 0;
+      }
+
     }
     return false;
   }

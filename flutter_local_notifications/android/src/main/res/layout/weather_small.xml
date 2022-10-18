@@ -10,8 +10,8 @@
         android:layout_weight="1"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -27,60 +27,60 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="4dp"
             android:text="6Minutes"
             style="@style/TextAppearance.Compat.Notification.Info" />
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/body"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:text="New York, NY"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="5dp"
-        style="@style/TextAppearance.Compat.Notification.Title"
-        android:layout_weight="2" />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="end"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|end"
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/today"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                style="@style/TextAppearance.Compat.Notification.Title"
-                android:text="Today" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|center"
+                android:layout_weight="1"
+                android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/todayWeather"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:textSize="20dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="68/61" />
+                <TextView
+                    android:id="@+id/todayWeather"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:textSize="16dp"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/text_primary"
+                    android:text="68°/61°" />
+
+                <TextView
+                    android:id="@+id/today"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.Compat.Notification.Info"
+                    android:text="Today" />
+
+            </LinearLayout>
+
 
             <ImageView
                 android:id="@+id/todayPicture"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:scaleType="centerCrop"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:scaleType="fitCenter"
+                android:layout_marginEnd="4dp"
                 android:src="@mipmap/ic_launcher"
                 android:contentDescription="todayPicture" />
 
@@ -91,40 +91,49 @@
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
-            android:background="#f5f5f5" >
+            android:background="@color/separator" >
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="start"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|start"
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tomorrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                style="@style/TextAppearance.Compat.Notification.Title"
-                android:text="Tomorrow" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|center"
+                android:layout_weight="1"
+                android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/tomorrowWeather"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:textSize="20dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="68/55" />
+                <TextView
+                    android:id="@+id/tomorrowWeather"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:textSize="16dp"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/text_primary"
+                    android:text="68°/55°" />
+
+                <TextView
+                    android:id="@+id/tomorrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.Compat.Notification.Info"
+                    android:text="Tomorrow" />
+
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/tomorrowPicture"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:scaleType="centerCrop"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginEnd="4dp"
+                android:scaleType="fitCenter"
                 android:src="@mipmap/ic_launcher"
-                android:layout_marginStart="5dp"
                 android:contentDescription="tomorrowPicture" />
 
         </LinearLayout>
