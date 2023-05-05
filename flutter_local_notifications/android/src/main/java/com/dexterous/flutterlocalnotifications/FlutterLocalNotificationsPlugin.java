@@ -238,6 +238,9 @@ public class FlutterLocalNotificationsPlugin
     }
     PendingIntent pendingIntent =
         PendingIntent.getActivity(context, notificationDetails.id, intent, flags);
+    PendingIntent emptyIntent =
+            PendingIntent.getActivity(context, notificationDetails.id, new Intent(), flags);
+
     DefaultStyleInformation defaultStyleInformation =
         (DefaultStyleInformation) notificationDetails.styleInformation;
     NotificationCompat.Builder builder =
@@ -364,7 +367,7 @@ public class FlutterLocalNotificationsPlugin
     }
 
     if (BooleanUtils.getValue(notificationDetails.fullScreenIntent)) {
-      builder.setFullScreenIntent(pendingIntent, true);
+      builder.setFullScreenIntent(emptyIntent, true);
     }
 
     if (!StringUtils.isNullOrEmpty(notificationDetails.shortcutId)) {
